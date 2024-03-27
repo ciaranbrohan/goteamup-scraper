@@ -4,7 +4,7 @@ const userAgent = require("user-agents");
 const getMonthEvents = () => {
   console.log("getMonthEvents: get month events");
   return puppeteer
-    .launch({ headless: true, defaultViewport: null, executablePath: '/usr/bin/google-chrome' }) // defaultViewport: null
+    .launch({ headless: true, defaultViewport: null, executablePath: '/usr/bin/google-chrome', args: ["--no-sandbox"]  }) // defaultViewport: null
     .then(async (browser) => {
       const page = await browser.newPage();
       await page.goto(
