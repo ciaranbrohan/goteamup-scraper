@@ -1,10 +1,7 @@
 const userAgent = require("user-agents");
-import edgeChromium from 'chrome-aws-lambda'
-import puppeteer from 'puppeteer-core'
 
-let chrome = {};
-let puppeteer;
-
+const puppeteer = require('puppeteer-core');
+const edgeChromium = require('chrome-aws-lambda');
 
 const getMonthEvents = async () => {
   console.log("getMonthEvents: get month events");
