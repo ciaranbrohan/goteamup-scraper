@@ -4,16 +4,18 @@ const userAgent = require("user-agents");
 const getMonthEvents = () => {
   console.log("getMonthEvents: get month events");
   return puppeteer
-    .launch({ headless: true, defaultViewport: null, executablePath: '/usr/bin/google-chrome', args: ["--no-sandbox"]  }) // defaultViewport: null
+    .launch({ headless: true,executablePath: '/usr/bin/google-chrome', args: ["--no-sandbox"] , defaultViewport: null, }) //executablePath: '/usr/bin/google-chrome', args: ["--no-sandbox"] 
     .then(async (browser) => {
+      console.log('fired');
       const page = await browser.newPage();
+      console.log(page)
       await page.goto("https://goteamup.com/p/5410809-t45-jiujitsu/c/schedule", {
         waitUntil: "networkidle2",
       });
       //Wait for the page to be loaded
       await page.waitForSelector(".desktop-calendar-month-view");
-  
       let events = await page.evaluate(async () => {
+
         var sleepNow = (delay) =>
           new Promise((resolve) => setTimeout(resolve, delay));
         
@@ -26,6 +28,7 @@ const getMonthEvents = () => {
   
         let elements = document.getElementsByClassName("calendar-event");
         let eventObjects = [];
+
   
         for (let i = 0; i < elements.length; i++) {
           elements[i].click();
@@ -37,20 +40,14 @@ const getMonthEvents = () => {
               elements[i].querySelector("p.time-range").innerText,
               ""
             );
+
           var dateObject = new Date(dateOnly);
   
-          // console.log(dateObject);
           var now = new Date()
-          // console.log(setDay(now, 0));
-          // console.log(setDay(now, 6))
+          now.setHours(0,0,0,0);
+              
+          var check = dateObject.getDate() === now.getDate();
   
-          var check = dateObject >= setDay(now, 0) && dateObject <= setDay(now, 6);
-  
-          // console.log(check)
-  
-          // console.log(sunday)
-          // var lastDayOfWeek = new Date(now.setDate(now.getDate() - now.getDay()+6));
-          // console.log(lastDayOfWeek)
           if (check) {
             eventObjects.push({
               title: elements[i].querySelector("h6.title")
@@ -95,7 +92,8 @@ const getMonthEvents = () => {
       });
   
   
-      await browser.close();
+      // await browser.close();
+      console.log(events)
       return events;
     })
     .catch(function (err) {
