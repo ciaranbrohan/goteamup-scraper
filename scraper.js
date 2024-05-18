@@ -1,10 +1,28 @@
-const puppeteer = require("puppeteer");
 const userAgent = require("user-agents");
 
-const getMonthEvents = () => {
+let chrome = {};
+let puppeteer;
+
+if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+  // running on the Vercel platform.
+  chrome = require('chrome-aws-lambda');
+  puppeteer = require('puppeteer-core');
+} else {
+  // running locally.
+  puppeteer = require('puppeteer');
+}
+
+
+const getMonthEvents = async () => {
   console.log("getMonthEvents: get month events");
   return puppeteer
-    .launch({ headless: true,executablePath: '/usr/bin/google-chrome', args: ["--no-sandbox"] , defaultViewport: null, }) //executablePath: '/usr/bin/google-chrome', args: ["--no-sandbox"] 
+    .launch({
+      args: [...chrome.args, '--hide-scrollbars', '--disable-web-security'],
+      defaultViewport: chrome.defaultViewport,
+      executablePath: await chrome.executablePath,
+      headless: true,
+      ignoreHTTPSErrors: true
+    }) //executablePath: '/usr/bin/google-chrome', args: ["--no-sandbox"] 
     .then(async (browser) => {
       console.log('fired');
       const page = await browser.newPage();
