@@ -7,8 +7,8 @@ const getMonthEvents = async () => {
   console.log("getMonthEvents: get month events");
   return puppeteer
     .launch({
-      args: [...chrome.args, '--hide-scrollbars', '--disable-web-security'],
-      defaultViewport: chrome.defaultViewport,
+      args: [...edgeChromium.args, '--hide-scrollbars', '--disable-web-security'],
+      defaultViewport: edgeChromium.defaultViewport,
       executablePath: await edgeChromium.executablePath,
       headless: true,
       ignoreHTTPSErrors: true
