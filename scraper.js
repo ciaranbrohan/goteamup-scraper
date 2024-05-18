@@ -1,16 +1,9 @@
 const userAgent = require("user-agents");
+import edgeChromium from 'chrome-aws-lambda'
+import puppeteer from 'puppeteer-core'
 
 let chrome = {};
 let puppeteer;
-
-if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
-  // running on the Vercel platform.
-  chrome = require('chrome-aws-lambda');
-  puppeteer = require('puppeteer-core');
-} else {
-  // running locally.
-  puppeteer = require('puppeteer');
-}
 
 
 const getMonthEvents = async () => {
@@ -19,7 +12,7 @@ const getMonthEvents = async () => {
     .launch({
       args: [...chrome.args, '--hide-scrollbars', '--disable-web-security'],
       defaultViewport: chrome.defaultViewport,
-      executablePath: await chrome.executablePath,
+      executablePath: await edgeChromium.executablePath,
       headless: true,
       ignoreHTTPSErrors: true
     }) //executablePath: '/usr/bin/google-chrome', args: ["--no-sandbox"] 

@@ -14,7 +14,7 @@
     "dayjs": "^1.11.10",
     "express": "^4.19.1",
     "puppeteer": "^22.6.0",
-    "puppeteer-core": "^22.9.0",
+    "puppeteer-core": "10.1.0",
     "user-agents": "^1.1.154"
   }
 }
