@@ -1,7 +1,6 @@
 const puppeteer = require("puppeteer");
 const userAgent = require("user-agents");
 
-
 const getMonthEvents = async () => {
   console.log("getMonthEvents: get month events");
 
@@ -41,9 +40,10 @@ await page.focus('#id_login-password');
         });
         return eventsArray;
     });
-  await browser.close();
+  
     return events;
   
 };
 
-exports.getMonthEvents = getMonthEvents;
+
+getMonthEvents();
