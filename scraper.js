@@ -8,12 +8,12 @@ const PASSWORD = process.env.TEAMUP_PASSWORD; // set this in env, not in code
 
 async function getMonthEvents() {
   const launchArgs = [
-    "--no-sandbox",               // required on many VPS
-    "--disable-setuid-sandbox",
-    "--disable-dev-shm-usage",    // avoids /dev/shm small tmpfs issues
-    "--no-zygote",
-    "--single-process",           // reduces RAM; remove if it crashes on your box
-    "--disable-gpu",
+    // "--no-sandbox",               // required on many VPS
+    // "--disable-setuid-sandbox",
+    // "--disable-dev-shm-usage",    // avoids /dev/shm small tmpfs issues
+    // "--no-zygote",
+    // "--single-process",           // reduces RAM; remove if it crashes on your box
+    // "--disable-gpu",
   ];
 
   let browser;
@@ -26,7 +26,10 @@ async function getMonthEvents() {
   }, HARD_TIMEOUT_MS);
 
   try {
-    browser = await puppeteer.launch({ headless: "new", args: launchArgs });
+    browser = await puppeteer.launch({
+      headless: "new",
+      args: launchArgs,
+    });
     page = await browser.newPage();
 
     // Be strict with timeouts
@@ -73,7 +76,7 @@ async function getMonthEvents() {
       return rows.map((el) => ({
         id: el.getAttribute("href")?.replace("/providers/events/", "").replace("/", "") || null,
         title: el.querySelector(".title")?.textContent?.trim() || "",
-        time: el.querySelector(".time-range")?.textContent?.trim() || "",
+        time: el.querySelector(".time-range")?.innerHTML?.trim() || "",
         instructor: el.querySelector(".instructors li")?.textContent?.trim() || "",
         members: el.querySelector(".users li")?.textContent?.trim() || "",
       }));
@@ -90,7 +93,7 @@ async function getMonthEvents() {
 (async () => {
   try {
     const events = await getMonthEvents();
-    await fs.writeFile("/var/tmp/month-events.json", JSON.stringify(events, null, 2));
+    await fs.writeFile("month-events.json", JSON.stringify(events, null, 2));
     console.log(`Saved ${events.length} events`);
   } catch (err) {
     console.error("Scrape failed:", err.message);

@@ -12,6 +12,7 @@
   "dependencies": {
     "chrome-aws-lambda": "^10.1.0",
     "dayjs": "^1.11.10",
+    "dotenv": "^17.2.3",
     "express": "^4.19.1",
     "puppeteer": "^22.6.0",
     "puppeteer-core": "10.1.0",
