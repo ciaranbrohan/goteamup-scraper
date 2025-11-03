@@ -75,10 +75,10 @@ async function getMonthEvents() {
       const rows = Array.from(document.querySelectorAll(".calendar-event"));
       return rows.map((el) => ({
         id: el.getAttribute("href")?.replace("/providers/events/", "").replace("/", "") || null,
-        title: el.querySelector(".title")?.textContent?.trim() || "",
+        title: el.querySelector(".title")?.innerHTML?.trim() || "",
         time: el.querySelector(".time-range")?.innerHTML?.trim() || "",
-        instructor: el.querySelector(".instructors li")?.textContent?.trim() || "",
-        members: el.querySelector(".users li")?.textContent?.trim() || "",
+        instructor: el.querySelector(".instructors li")?.innerHTML?.trim() || "",
+        members: el.querySelector(".users li")[0]?.innerText?.trim() || "",
       }));
     });
 
