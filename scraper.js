@@ -8,12 +8,12 @@ const PASSWORD = process.env.TEAMUP_PASSWORD; // set this in env, not in code
 
 async function getMonthEvents() {
   const launchArgs = [
-    // "--no-sandbox",               // required on many VPS
-    // "--disable-setuid-sandbox",
-    // "--disable-dev-shm-usage",    // avoids /dev/shm small tmpfs issues
-    // "--no-zygote",
-    // "--single-process",           // reduces RAM; remove if it crashes on your box
-    // "--disable-gpu",
+    "--no-sandbox",               // required on many VPS
+    "--disable-setuid-sandbox",
+    "--disable-dev-shm-usage",    // avoids /dev/shm small tmpfs issues
+    "--no-zygote",
+    "--single-process",           // reduces RAM; remove if it crashes on your box
+    "--disable-gpu",
   ];
 
   let browser;
